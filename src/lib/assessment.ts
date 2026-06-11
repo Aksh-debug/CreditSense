@@ -174,9 +174,9 @@ export async function assess(
         { role: "user", content: "Now call record_assessment with your conclusion." },
       ],
     });
-    toolArguments =
-      forced.choices[0]?.message?.tool_calls?.[0]?.function?.arguments ?? "";
-    toolCallId = forced.choices[0]?.message?.tool_calls?.[0]?.id ?? "";
+    const forcedCall = forced.choices[0]?.message?.tool_calls?.[0] as { id: string; function: { arguments: string } } | undefined;
+    toolArguments = forcedCall?.function?.arguments ?? "";
+    toolCallId = forcedCall?.id ?? "";
   }
 
   if (!toolArguments) {
